@@ -33,8 +33,6 @@ def class_txt(root, file_name, txt_window, window):
     with open(file_name) as f:
         content = f.read()
 
-    # txt_create(target_folder, content)
-
     for i in content:
         if i in txt or i == '\n':
             continue
@@ -46,10 +44,5 @@ def class_txt(root, file_name, txt_window, window):
     print_txt_list = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), width = 10, text = txt)
     print_txt_list.place(x = 210, y = 100)
 
-    generate_button = tk.Button(txt_window, text = 'Generate', width = 15, height = 2, command = lambda: generate(txt_window, window))
+    generate_button = tk.Button(txt_window, text = 'Generate', width = 15, height = 2, command = lambda: generate(txt_window, window, file_name))
     generate_button.place(x = 210, y = 150)
-
-def txt_create(target_folder, content):
-    txt_file = open(target_folder, 'w')
-    txt_file.write(content)
-    print(path)

@@ -13,7 +13,6 @@ file_name = None
 def print_selection():
     global file_name
     file_name = listbox.get(listbox.curselection())   # 獲取當前選中的文字
-    print(file_name)
     current_file.set(file_name)  # 為label設定值
     txt_viewer(file_name, window)    # 預覽選取文件
 
