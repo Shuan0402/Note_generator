@@ -24,8 +24,7 @@ current_file_label.pack()
 
 # 開啟 txt 資料夾獲得 txt 選項
 current_path = os.path.abspath(os.path.dirname(__file__))
-path = current_path
-target_folder = os.path.join(path, 'txt')
+target_folder = os.path.join(current_path, 'txt')
 
 if os.getcwd() != target_folder:
     os.chdir(target_folder)
