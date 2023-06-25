@@ -3,10 +3,6 @@ from PIL import Image, ImageTk
 import os
 
 def photo(file_name):
-    # 圖像顯示視窗
-    # txt_photo = tk.Tk()
-    # txt_photo.title('txt_generate_photo')
-    # txt_photo.geometry('500x500')
 
     # 獲得當前與目的文件位置
     current_path = os.path.abspath(os.path.dirname(__file__))
@@ -47,8 +43,4 @@ def photo(file_name):
 
     bg.save('oxxostudio.jpg')
 
-    
 
-    # txt_photo.mainloop()
-
-photo('test1.txt')
