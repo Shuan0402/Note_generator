@@ -16,11 +16,26 @@ def generate(txt_window, root, file_name):
     # 取得圖片位置
     current_path = os.path.abspath(os.path.dirname(__file__))
     target_folder = os.path.join(current_path, file_name, 'oxxostudio.jpg')   # 目標文件字符資料夾位置
-    print(target_folder)
-    img = Image.open(target_folder)        # 開啟圖片
-    tk_img = ImageTk.PhotoImage(img)    # 轉換為 tk 圖片物件
+    # print(target_folder)
+    if os.path.exists(target_folder):
+        print("yes")
+    else:
+        print("no")
 
-    txt_image = tk.Label(txt_generate, image = tk_img)
-    txt_image.pack()
+    # # 讀取圖片
+    # img = Image.open(target_folder)
+
+    # # 創建圖像物件
+    # img_obj = ImageTk.PhotoImage(img)
+
+    # # 創建Label元件並顯示圖像
+    # label = tk.Label(txt_generate, image=img_obj)
+    # label.pack()
+
+    selection_buttom = tk.Button(txt_generate, text = 'test', width = 15, height = 2, command = test)
+    selection_buttom.pack()
+
+def test():
+    print('test')
 
 

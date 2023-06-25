@@ -1,12 +1,13 @@
 import tkinter as tk
 import os
+from PIL import Image, ImageTk
 
 # 函式庫
 from txt_viewer import txt_viewer   # txt 預覽視窗
 
 window = tk.Tk()
 window.title('Note Generator')
-window.geometry("500x300+500+150")
+window.geometry("500x500+500+150")
 
 # 當前選取的資料
 file_name = None
@@ -41,7 +42,6 @@ listbox.pack()
 # 選取的確認鍵
 selection_buttom = tk.Button(window, text = 'print selection', width = 15, height = 2, command = print_selection)
 selection_buttom.pack()
-
 
 # 主迴圈
 window.mainloop()
