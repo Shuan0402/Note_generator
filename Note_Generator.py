@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 import tkinter as tk
 import os
 from PIL import Image, ImageTk
@@ -8,6 +9,8 @@ from txt_viewer import txt_viewer   # txt 預覽視窗
 window = tk.Tk()
 window.title('Note Generator')
 window.geometry("500x500+500+150")
+
+print("測試")
 
 # 當前選取的資料
 file_name = None

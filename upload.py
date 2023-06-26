@@ -2,6 +2,11 @@ import os
 from PIL import Image, ImageTk
 import tkinter as tk
 from tkinter import filedialog
+from copy_img import copy_image
+import shutil
+
+def path_list(file_list, file_name, file_path):
+    file_list[file_name] = file_path
 
 
 
@@ -10,9 +15,12 @@ def show(txt, upload_window):
     if os.path.exists(file_path):
         upload_path_Label = tk.Label(upload_window, bg = 'white', fg = 'black', font = ('Arial', 12), width = 10, text = file_path)
         upload_path_Label.pack()
-        print(file_path)
+        path_list(file_list, txt, file_path)
+        print(file_list)
     else:
         print('no')
+    
+    
         
     
     # f = open(file_path,'r')      # 根據檔案路徑開啟檔案
@@ -38,15 +46,17 @@ def upload(file_name, txt_window):
     all_file_names.remove('oxxostudio.jpg')
     upload_button = []
     time = 0
+
+    file_list = {}
     for i in all_file_names:
-        txt_upload = tk.Label(upload_window, bg = 'white', fg = 'black', font = ('Arial', 12), width = 10, text = i)
-        txt_upload.pack()
+        upload_button(i, upload_window, file_list)
 
         
-        upload_button = tk.Button(upload_window, text = 'upload', width = 15, height = 2, command = lambda: show(i, upload_window))
-        upload_button.pack()
-        
-        time += 1
-        
 
+def upload_button(file_name, upload_window):
+    txt_upload = tk.Label(upload_window, bg = 'white', fg = 'black', font = ('Arial', 12), width = 10, text = i)
+    txt_upload.pack()
+
+    upload_button = tk.Button(upload_window, text = i, width = 15, height = 2, command = lambda: show(name, upload_window))
+    upload_button.pack()
     

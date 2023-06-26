@@ -1,3 +1,4 @@
+# coding=utf-8
 import tkinter as tk
 import os
 from generate import generate
@@ -43,12 +44,20 @@ def class_txt(root, file_name, txt_window, window, content):
             txt_list = os.path.join(target_folder, i)
         if not os.path.isdir(txt_list):
             os.mkdir(txt_list)
+
+    # 顯示需要的字符
     print_txt_list = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), width = 10, text = txt)
     print_txt_list.place(x = 210, y = 100)
 
+    # 生成圖片
     generate_button = tk.Button(txt_window, text = 'Generate', width = 15, height = 2, command = lambda: generate(txt_window, window, file_name))
     generate_button.place(x = 210, y = 150)
 
+    # 上傳圖片
+    # 此功能不完全，之後再優化
+    upload_Label = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = 'upload hasn\'t completed, dont touch')
+    upload_Label.place(x = 210, y = 200)
     upload_button = tk.Button(txt_window, text = 'Upload', width = 15, height = 2, command = lambda: upload(file_name, txt_window))
-    upload_button.place(x = 210, y = 200)
+    upload_button.place(x = 210, y = 250)
+    
 
