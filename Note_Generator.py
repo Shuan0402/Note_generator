@@ -10,7 +10,6 @@ window = tk.Tk()
 window.title('Note Generator')
 window.geometry("500x500+500+150")
 
-print("測試")
 
 # 當前選取的資料
 file_name = None

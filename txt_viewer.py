@@ -15,13 +15,13 @@ def txt_viewer(file_name, window):
     with open(target_txt) as f:
         content = f.read()
 
-    txt_Label = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), width = 10, text = content)
+    txt_Label = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = content)
     txt_Label.pack()
 
     yes_button = tk.Button(txt_window, text = 'Yes', width = 15, height = 2, command = lambda: class_txt(txt_window, file_name, txt_window, window, content))
     no_button = tk.Button(txt_window, text = 'No', width = 15, height = 2, command = lambda: close_window(txt_window))
-    yes_button.place(x = 130, y = 50)
-    no_button.place(x = 260, y = 50)
+    yes_button.pack()
+    no_button.pack()
 
 def close_window(root):
     root.destroy()
@@ -45,19 +45,25 @@ def class_txt(root, file_name, txt_window, window, content):
         if not os.path.isdir(txt_list):
             os.mkdir(txt_list)
 
-    # 顯示需要的字符
-    print_txt_list = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), width = 10, text = txt)
-    print_txt_list.place(x = 210, y = 100)
+    
 
+    # 顯示需要的字符
+    txt_list_len = len(txt) // 20   # 一行最多顯示 20 個字
+    for i in range(txt_list_len):
+        print_txt_list = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = txt[i * 20 : (i + 1) * 20])
+        print_txt_list.pack()
+    print_txt_list = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = txt[20 * txt_list_len : 20 * txt_list_len + txt_list_len % 5])
+    print_txt_list.pack()
+    
     # 生成圖片
     generate_button = tk.Button(txt_window, text = 'Generate', width = 15, height = 2, command = lambda: generate(txt_window, window, file_name))
-    generate_button.place(x = 210, y = 150)
+    generate_button.pack()
 
     # 上傳圖片
     # 此功能不完全，之後再優化
     upload_Label = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = 'upload hasn\'t completed, dont touch')
-    upload_Label.place(x = 210, y = 200)
+    upload_Label.pack()
     upload_button = tk.Button(txt_window, text = 'Upload', width = 15, height = 2, command = lambda: upload(file_name, txt_window))
-    upload_button.place(x = 210, y = 250)
+    upload_button.pack()
     
 

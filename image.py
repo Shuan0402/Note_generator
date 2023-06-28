@@ -2,6 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import os
 import random
+from crop_img import crop_image
 
 def photo(file_name):
 
@@ -35,10 +36,12 @@ def photo(file_name):
         txt_folder = os.path.join(target_folder, i)   # 目標文件字符資料夾位置
         all_file_name = os.listdir(txt_folder)
         for j in all_file_name:
-            file_image[i].append(os.path.join(current_path, file_name, i, j))
+            file_path = os.path.join(current_path, file_name, i, j)
+            crop_image(file_path)
+            file_image[i].append(file_path)
 
     # 創建畫布
-    bg = Image.new('RGB',(1200, 800), '#FFFFFF') 
+    bg = Image.new('RGB',(2100, 2970), 'white') 
 
     # 拼貼圖片
     x = 0
@@ -46,16 +49,16 @@ def photo(file_name):
     for i in content:
         if i == '\n':
             x = 0
-            y += 30
+            y += 50
         elif i == ' ':
-            x += 10
+            x += 25
         else:
             txt_len = len(file_image[i])
             txt_random = random.randint(0, txt_len - 1) 
             img = Image.open(file_image[i][txt_random])  # 開啟圖片
-            img = img.resize((30, 30))   # 調整為固定尺寸 100*100
+            img = img.resize((50, 50))   # 調整為固定尺寸 100*100
             bg.paste(img,(x, y))
-            x += 30
+            x += 50
 
     bg.save('oxxostudio.jpg')
 
