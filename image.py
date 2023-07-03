@@ -56,8 +56,12 @@ def photo(file_name):
             txt_len = len(file_image[i])
             txt_random = random.randint(0, txt_len - 1) 
             img = Image.open(file_image[i][txt_random])  # 開啟圖片
-            img = img.resize((50, 50))   # 調整為固定尺寸 100*100
-            bg.paste(img,(x, y))
+            if i == ',' or i == '。' or i == '，':
+                img = img.resize((10, 10))   # 調整為固定尺寸 100*100
+                bg.paste(img,(x + 20, y + 20))
+            else:
+                img = img.resize((40, 40))   # 調整為固定尺寸 100*100
+                bg.paste(img,(x + 5, y + 5))
             x += 50
 
     bg.save('oxxostudio.jpg')
@@ -75,5 +79,5 @@ def test():
 
     print(all_file_name)
 
-photo('test1.txt')
+photo('test3.txt')
 # test()

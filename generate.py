@@ -1,7 +1,8 @@
-import tkinter as tk
+import tkinter as tkc
 from PIL import Image, ImageTk
 from image import photo
 import os
+from editor import edit
 
 def generate(txt_window, root, file_name):
     # 建立預覽圖片視窗
@@ -24,9 +25,8 @@ def generate(txt_window, root, file_name):
     img_obj = ImageTk.PhotoImage(img)
 
     # 創建Label元件並顯示圖像
-    label = tk.Label(txt_generate, image=img_obj)
-    label.place(x = 0, y = 0)
-
+    label = tk.Label(txt_generate, image = img_obj)
+    label.pack()
     txt_generate.mainloop()
 
 

@@ -28,17 +28,16 @@ current_file_label.pack()
 current_path = os.path.abspath(os.path.dirname(__file__))
 target_folder = os.path.join(current_path, 'txt')
 
+# 如果位置不對則跳到指定位置
 if os.getcwd() != target_folder:
     os.chdir(target_folder)
 
+# 建立 txt 選項清單
 all_file_names = os.listdir()
-
-# 建立 txt 選項清單 
 listbox = tk.Listbox(window)    
 for item in all_file_names:
     listbox.insert('end', item)  
 listbox.pack()
-
 
 # 選取的確認鍵
 selection_buttom = tk.Button(window, text = 'print selection', width = 15, height = 2, command = print_selection)

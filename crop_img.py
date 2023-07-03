@@ -58,6 +58,9 @@ def crop_image(image_path):
     right = x_max
     lower = y_max
 
+    if left > right or upper < lower:
+        return
+
     # 裁剪圖片
     cropped_image = image.crop((left, upper, right, lower))
     width, height = cropped_image.size
@@ -82,6 +85,6 @@ def crop_image(image_path):
 
 
 # 測試
-image_path = 'test.jpg'
-cropped_image_path = crop_image(image_path)
-print(f"cropped：{cropped_image_path}")
+# image_path = 'test.jpg'
+# cropped_image_path = crop_image(image_path)
+# print(f"cropped：{cropped_image_path}")
