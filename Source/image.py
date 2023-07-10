@@ -79,5 +79,5 @@ def test():
 
     print(all_file_name)
 
-photo('test3.txt')
+# photo('test3.txt')
 # test()

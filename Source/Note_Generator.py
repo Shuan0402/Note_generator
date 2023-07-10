@@ -26,7 +26,8 @@ current_file_label.pack()
 
 # 開啟 txt 資料夾獲得 txt 選項
 current_path = os.path.abspath(os.path.dirname(__file__))
-target_folder = os.path.join(current_path, 'txt')
+parent_path = os.path.abspath(os.path.join(current_path, os.pardir))
+target_folder = os.path.join(parent_path, 'txt')
 
 # 如果位置不對則跳到指定位置
 if os.getcwd() != target_folder:
