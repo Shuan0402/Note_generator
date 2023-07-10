@@ -13,7 +13,8 @@ def upload(file_name, txt_window):
 
     # 確認所須字符
     current_path = os.path.abspath(os.path.dirname(__file__))
-    target_folder = os.path.join(current_path, file_name)
+    parent_path = os.path.abspath(os.path.join(current_path, os.pardir))
+    target_folder = os.path.join(parent_path, 'Generated_txt', file_name)
     if os.getcwd() != target_folder:
         os.chdir(target_folder)
     all_file_names = os.listdir()
@@ -93,7 +94,8 @@ def delete(path, Label, Button):
 def copy_txt(file_name, current_txt):
     # 將選取的圖片複製到當前字符的資料夾
     current_path = os.path.abspath(os.path.dirname(__file__))
-    target_folder = os.path.join(current_path, file_name, current_txt.get())
+    parent_path = os.path.abspath(os.path.join(current_path, os.pardir))
+    target_folder = os.path.join(parent_path, 'Generated_txt', file_name, current_txt.get())
     for i in txt_path:
         txt_name = os.path.basename(i)  # 取得檔案名稱
         target_path = os.path.join(target_folder, txt_name) # 組合目標資料夾路徑與檔案名稱

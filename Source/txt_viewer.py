@@ -19,17 +19,18 @@ def txt_viewer(file_name, window):
     txt_window.title('TXT')
     txt_window.geometry("500x600+200+200")
 
-    
-
     current_path = os.path.abspath(os.path.dirname(__file__))
-    target_txt = os.path.join(current_path, 'txt', file_name)
+    parent_path = os.path.abspath(os.path.join(current_path, os.pardir))
+    target_txt = os.path.join(parent_path, 'txt', file_name)
     
     with open(target_txt) as f:
         content = f.read()
 
+    # 預覽內文
     txt_Label = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = content)
     txt_Label.pack()
 
+    # 確認內文按鍵
     yes_button = tk.Button(txt_window, text = 'Yes', width = 15, height = 2, command = lambda: class_txt(txt_window, content, file_name))
     no_button = tk.Button(txt_window, text = 'No', width = 15, height = 2, command = lambda: close_window(txt_window))
     yes_button.pack()
@@ -37,13 +38,16 @@ def txt_viewer(file_name, window):
 
     txt_window.mainloop()
 
+# 關閉視窗
 def close_window(root):
     root.destroy()
 
+# 確認所需字符
 def class_txt(txt_window, content, file_name):
     # 建立文字資料夾
     current_path = os.path.abspath(os.path.dirname(__file__))
-    target_folder = os.path.join(current_path, file_name)
+    parent_path = os.path.abspath(os.path.join(current_path, os.pardir))
+    target_folder = os.path.join(parent_path, 'Generated_txt', file_name)
     if not os.path.isdir(target_folder):
         os.mkdir(target_folder)
 
@@ -67,7 +71,7 @@ def class_txt(txt_window, content, file_name):
     print_txt_list.pack()
     
     # generate的button
-    generate_button = os.path.join(current_path, 'Resource\generate.png')
+    generate_button = os.path.join(parent_path, 'Resource\generate.png')
     generate_img = Image.open(generate_button)
     max_size = (75, 75)
     generate_img.thumbnail(max_size, Image.ANTIALIAS)
