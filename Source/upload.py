@@ -99,7 +99,6 @@ def copy_txt(file_name, current_txt):
     for i in txt_path:
         txt_name = os.path.basename(i)  # 取得檔案名稱
         target_path = os.path.join(target_folder, txt_name) # 組合目標資料夾路徑與檔案名稱
-        print(target_path)
         if os.path.exists(target_path):
             print("has existed")
         else:
