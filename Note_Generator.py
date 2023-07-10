@@ -46,4 +46,3 @@ selection_buttom.pack()
 # 主迴圈
 window.mainloop()
 
-print("hello")
