@@ -69,7 +69,7 @@ def class_txt(txt_window, content, file_name):
     # generate的button
     generate_button = os.path.join(current_path, 'Resource\generate.png')
     generate_img = Image.open(generate_button)
-    max_size = (200, 200)
+    max_size = (75, 75)
     generate_img.thumbnail(max_size, Image.ANTIALIAS)
     tk_img = ImageTk.PhotoImage(generate_img)
     button = tk.Button(txt_window, image=tk_img, command=lambda:edit(content, txt_window), compound="top", borderwidth=0, highlightthickness=0)
@@ -77,9 +77,6 @@ def class_txt(txt_window, content, file_name):
     show_button.img = tk_img
     
     # 上傳圖片
-    # 此功能不完全，之後再優化
-    upload_Label = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = 'upload hasn\'t completed, dont touch')
-    upload_Label.pack()
     upload_button = tk.Button(txt_window, text = 'Upload', width = 15, height = 2, command = lambda: upload(file_name, txt_window))
     upload_button.pack()
     

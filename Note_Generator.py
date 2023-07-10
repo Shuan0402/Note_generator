@@ -40,8 +40,8 @@ for item in all_file_names:
 listbox.pack()
 
 # 選取的確認鍵
-selection_buttom = tk.Button(window, text = 'print selection', width = 15, height = 2, command = print_selection)
-selection_buttom.pack()
+selection_button = tk.Button(window, text = 'print selection', width = 15, height = 2, command = print_selection)
+selection_button.pack()
 
 # 主迴圈
 window.mainloop()

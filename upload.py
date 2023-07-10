@@ -43,9 +43,6 @@ def upload_image(txt, upload_window, file_name):
         upload_path_Label = tk.Label(upload_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = file_path)
         upload_path_Label.pack()
         
-        ###
-        # 之後再做刪除路徑的叉叉鍵
-        ###
         # 刪除路徑
         del_button = tk.Button(upload_window, text = 'delete', command = lambda: delete(file_path, upload_path_Label, del_button))
         del_button.pack()
@@ -57,6 +54,7 @@ def upload_image(txt, upload_window, file_name):
 # 下一個字符
 def next_txt(current_element, all_file_names, upload_window, file_name):
     current_element = current_element.get()  # 獲取當前的字符
+    copy_txt(file_name, current_txt)
     if current_element == all_file_names[-1]:   # 如果此字符位最後一個字符，則直接結束
         clear_window(upload_window)
         complete_Label = tk.Label(upload_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = 'complete')
@@ -67,7 +65,6 @@ def next_txt(current_element, all_file_names, upload_window, file_name):
         clear_path(upload_window)
 
     print(txt_path)
-    copy_txt(file_name, current_txt)
 
 
 # 清除螢幕
@@ -102,7 +99,7 @@ def copy_txt(file_name, current_txt):
         target_path = os.path.join(target_folder, txt_name) # 組合目標資料夾路徑與檔案名稱
         print(target_path)
         if os.path.exists(target_path):
-            os.remove(target_path)
+            print("has existed")
         else:
             shutil.copy(i, target_path) # 複製檔案到目標資料夾
     
