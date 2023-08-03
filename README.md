@@ -3,7 +3,7 @@
 
 ## Prepare in advance
 安裝 python 3.6
-模型 tkinter、cv2
+模型 tkinter、cv2、PyQt5
 
 ## Instructions for use
 1. 在 Source 開啟小黑窗。
