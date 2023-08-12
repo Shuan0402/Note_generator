@@ -8,8 +8,11 @@ def photo(file_name):
 
     # 獲得當前與目的文件位置
     current_path = os.path.abspath(os.path.dirname(__file__))
-    target_folder = os.path.join(current_path, file_name)   # 目標文件字符資料夾位置
-    txt_file = os.path.join(current_path, 'txt', file_name)   # 目標文件位置
+    parent_path = os.path.abspath(os.path.join(current_path, os.pardir))
+    target_folder = os.path.join(parent_path, 'Generated_txt', file_name)   # 目標文件字符資料夾位置
+    txt_file = os.path.join(parent_path, 'txt', file_name)
+    print(target_folder)
+    print(txt_file)
     
     # 獲得完整文件
     with open(txt_file) as f:
@@ -79,5 +82,5 @@ def test():
 
     print(all_file_name)
 
-# photo('test3.txt')
+photo('test3.txt')
 # test()

@@ -12,7 +12,7 @@ def generate(txt_window, root, file_name):
     txt_window.destroy()
     
     # 生成圖片
-    photo(file_name)
+    # photo(file_name)
 
     # 取得圖片位置
     current_path = os.path.abspath(os.path.dirname(__file__))
