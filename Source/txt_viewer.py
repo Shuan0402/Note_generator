@@ -6,14 +6,14 @@ import jieba
 
 try:
     from PIL import Image, ImageTk
+    
 except ImportError:
     import Image, ImageTk
 
-
-# from generate import generate
-from upload import upload
+from image_button import show_image_button
+from window_class import DraggableWindow
+from upload import goto_upload
 from editor import edit
-from image_button import show_button
 
 
 def txt_viewer(file_name, window):
@@ -27,15 +27,10 @@ def txt_viewer(file_name, window):
     # 預覽內文
     wrapped_content = wrap_text(content, line_length = 52)
     txt_Label = tk.Label(window, bg = 'white', fg = 'black', font = ('Arial', 12), text = wrapped_content)
-    # txt_Label.grid(row = 0, column = 0, columnspan = 2)
-    txt_Label.pack()
-    
-
+    txt_Label.grid(row = 1, column = 0)
 
     # 確認內文按鍵
-    yes_button = tk.Button(window, text = 'Yes', width = 15, height = 2, command = lambda: class_txt(window, content, file_name))
-    # yes_button.grid(row = 1, column = 0)
-    yes_button.pack()
+    show_image_button(window, lambda: class_txt(window, content, file_name), [2, 0, ""], ["Next", 100, 100])
 
 
 
@@ -47,11 +42,13 @@ def close_window(root):
 def class_txt(window, content, file_name):
     # 建立顯示視窗
     txt_window = tk.Toplevel(window)  # 使用 Toplevel() 創建新的視窗，而不是 tk.Tk()
-    txt_window.title('TXT')
-    txt_window.geometry("500x600+200+200")
+    screen_width = txt_window.winfo_screenwidth()   # 獲得螢幕的長
+    screen_height = txt_window.winfo_screenheight() # 獲得螢幕的高
+    txt_window.geometry("500x600+" + str((screen_width - 500)//2) + "+" + str((screen_height - 600)//2-10))    # 宣告視窗大小且視窗置中
+    draggable = DraggableWindow(txt_window) # 使視窗標準化
 
-    hint_Label = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = 'All the words you need')
-    hint_Label.grid(row = 0, column = 0, columnspan = 2)
+    hint_Label = tk.Label(txt_window, bg = 'mediumvioletred', fg = 'lavender', font = ('Terminal', 12), text = 'All the words you need')
+    hint_Label.grid(row = 1, column = 0)
     # 建立文字資料夾
     current_path = os.path.abspath(os.path.dirname(__file__))
     parent_path = os.path.abspath(os.path.join(current_path, os.pardir))
@@ -74,23 +71,12 @@ def class_txt(window, content, file_name):
     txt_list_len = len(txt) // 20   # 一行最多顯示 20 個字
     for i in range(txt_list_len):
         print_txt_list = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = txt[i * 20 : (i + 1) * 20])
-        print_txt_list.pack()
+        print_txt_list.grid(row = 2, column = 0)
     print_txt_list = tk.Label(txt_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = txt[20 * txt_list_len : 20 * txt_list_len + len(txt) % 20])
-    print_txt_list.grid(row = 2, column = 0, columnspan = 2)
-    
-    # generate的button
-    # generate_button = os.path.join(parent_path, 'Resource\generate.png')
-    # generate_img = Image.open(generate_button)
-    # max_size = (75, 75)
-    # generate_img.thumbnail(max_size, Image.ANTIALIAS)
-    # tk_img = ImageTk.PhotoImage(generate_img)
-    # button = tk.Button(txt_window, image=tk_img, command=lambda:edit(content, txt_window), compound="top", borderwidth=0, highlightthickness=0)
-    # button.grid(row = 4, column = 0, columnspan = 2)
-    # show_button.img = tk_img
+    print_txt_list.grid(row = 3, column = 0)
     
     # 上傳圖片
-    upload_button = tk.Button(txt_window, text = 'Upload', width = 15, height = 2, command = lambda: upload(file_name, txt_window))
-    upload_button.grid(row = 3, column = 0, columnspan = 2)
+    show_image_button(txt_window, lambda: goto_upload(file_name, txt_window, window), [4, 0, ""], ["Upload", 100, 100])
 
     txt_window.mainloop()
     
