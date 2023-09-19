@@ -4,9 +4,10 @@ def format_text(file_name, text_width):
     # 獲得 file_name 的檔案路徑
     current_dir = os.path.dirname(os.path.abspath(__file__))
     parent_dir = os.path.dirname(current_dir)
-    file_path = os.path.join(parent_dir, 'txt', file_name + '.txt')  # 假設txt資料夾的名稱是'txt資料夾'
+    file_path = os.path.join(parent_dir, 'txt', file_name)  # 假設txt資料夾的名稱是'txt資料夾'
 
     if not os.path.isfile(file_path):
+        print(file_path)
         print("檔案不存在")
         return None
 
@@ -34,5 +35,5 @@ def format_text(file_name, text_width):
 
 if __name__ == "__main__":
     text_width = 40
-    result = format_text("失語者", text_width)
+    result = format_text("test3", text_width)
     print(result)

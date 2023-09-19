@@ -5,7 +5,7 @@ import os
 def button_click():
     print("Button clicked")
 
-def show_image_button(root, function, location, button_data):
+def show_image_button(tag, root, frame , function, location, button_data):
     current_path = os.path.abspath(os.path.dirname(__file__))
     parent_path = os.path.abspath(os.path.join(current_path, os.pardir))
     target_folder = os.path.join(parent_path, r'Resource' + "\\" + button_data[0] + ".png")
@@ -17,12 +17,24 @@ def show_image_button(root, function, location, button_data):
 
     tk_img = ImageTk.PhotoImage(img)
 
-    button = tk.Button(root, image = tk_img, command = function, borderwidth = 0, highlightthickness = 0)
+    
+    button = tk.Button(frame, image = tk_img, command = function, borderwidth = 0, highlightthickness = 0)
     button.image = tk_img  # 将 tk_img 对象附加到按钮对象
-    button.grid(row = location[0], column = location[1], sticky = location[2], padx = 1)
+
+    if tag == 'window_class':
+        button.pack(side = 'right', padx = 1, pady = 1)
+    elif tag == 'txt_viewer content' or tag == 'upload next_back':    # next_back_frame
+        button.pack(side = location[2])
+    else:
+        button.pack()
+
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()
-    show_image_button(root, button_click, [0, 1, "ne"], ["X", 50, 50])
-    show_image_button(root, button_click, [0, 0, "ne"], ["_", 50, 50])  # 使用不同的按钮名
+    frame = tk.Frame(root)                  # 加入 Frame 框架
+    frame.pack(side = 'top', fill = tk.X)
+    show_image_button(root, frame, button_click, [0, 1, "ne"], ["X", 50, 50])
+    show_image_button(root, frame, button_click, [0, 0, "ne"],  ["_", 50, 50])  # 使用不同的按钮名
     root.mainloop()

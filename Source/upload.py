@@ -6,14 +6,18 @@ from copy_img import copy_image
 from editor import edit
 from window_class import DraggableWindow
 import shutil
+from image_button import show_image_button
+
 # 上傳字符的視窗
 def goto_upload(file_name, txt_window, window):
     # 創建上傳的視窗
     txt_window.destroy()
     upload_window = tk.Toplevel(window)
-    upload_window.title('upload')
-    upload_window.geometry("500x600+200+200")
-
+    screen_width = upload_window.winfo_screenwidth()   # 獲得螢幕的長
+    screen_height = upload_window.winfo_screenheight() # 獲得螢幕的高
+    upload_window.geometry("845x590+" + str((screen_width - 845)//2) + "+" + str((screen_height - 590)//2-10))    # 宣告視窗大小且視窗置中
+    draggable = DraggableWindow(upload_window, [845, 590])
+    
     # 確認所須字符
     current_path = os.path.abspath(os.path.dirname(__file__))
     parent_path = os.path.abspath(os.path.join(current_path, os.pardir))
@@ -21,7 +25,8 @@ def goto_upload(file_name, txt_window, window):
     if os.getcwd() != target_folder:
         os.chdir(target_folder)
     all_file_names = os.listdir()
-    all_file_names.remove('oxxostudio.jpg')
+    if 'oxxostudio.jpg' in all_file_names:
+        all_file_names.remove('oxxostudio.jpg')
 
     # 建立所有字符的路徑資料夾
     global txt_path_folder
@@ -44,21 +49,20 @@ def goto_upload(file_name, txt_window, window):
 
     # 顯示目前字符
     current_txt_Label = tk.Label(upload_window, bg = 'white', fg = 'black', font = ('Arial', 12), textvariable = current_txt)
-    current_txt_Label.grid(row = 0, column = 0, columnspan = 2)
+    current_txt_Label.pack()
     
-    # 上傳圖片按鍵
-    global upload_button
-    upload_button = tk.Button(upload_window, text = 'upload', width = 15, height = 2, command = lambda:upload_image(current_txt, upload_window, file_name, target_folder))
-    upload_button.grid(row = 1, column = 0, columnspan = 2)
+    global upload_frame
+    upload_frame = tk.Frame(upload_window)  # 加入 Frame 框架
+    upload_frame.pack()
+    show_image_button('upload', upload_window, upload_frame, lambda: upload_image(current_txt, upload_window, file_name, target_folder), [4, 0, ""], ["Upload", 100, 100])
+
     
-    # 下一個字符按鍵
-    global next_button
-    next_button = tk.Button(upload_window, text = 'next', width = 15, height = 2, command = lambda:change_txt(current_txt, all_file_names, upload_window, file_name, 'next', window))
-    next_button.grid(row = 2, column = 1)
-    
-    # 上一個字符按鍵
-    back_button = tk.Button(upload_window, text = 'back', width = 15, height = 2, command = lambda:change_txt(current_txt, all_file_names, upload_window, file_name, 'back', window))
-    back_button.grid(row = 2, column = 0)
+    # 上下一個字符按鍵
+    global next_back_frame
+    next_back_frame = tk.Frame(upload_window)  # 加入 Frame 框架
+    next_back_frame.pack()
+    show_image_button('upload next_back', upload_window, next_back_frame, lambda: change_txt(current_txt, all_file_names, upload_window, file_name, 'next', window), [4, 0, "right"], ["Next", 100, 100])
+    show_image_button('upload next_back', upload_window, next_back_frame, lambda: change_txt(current_txt, all_file_names, upload_window, file_name, 'back', window), [4, 0, "right"], ["Back", 100, 100])
     
     # 顯示當前字符的所有筆跡
     show_path(upload_window, file_name, current_txt.get())
@@ -97,8 +101,8 @@ def change_txt(current_element, all_file_names, upload_window, file_name, tag, w
             print("already the first txt")
         else:
             if current_element.get() == all_file_names[-1]:
-                upload_button.grid(row = 1, column = 0, columnspan = 2)
-                next_button.grid(row = 2, column = 1)
+                upload_button.pack()
+                next_button.pack()
             current_index = all_file_names.index(current_element.get()) - 1   # 獲得當前字符的順序位置，並往後移到上一位
             current_txt.set(all_file_names[current_index])  # 將上一個字符設為當前字符
         show_path(upload_window, file_name, current_txt.get())
@@ -108,47 +112,53 @@ def change_txt(current_element, all_file_names, upload_window, file_name, tag, w
         # 最後一個字符
         if current_element.get() == all_file_names[-1]:   # 如果此字符位最後一個字符，則直接結束
         # 清理視窗
-            clear_path(upload_window)
-            upload_button.grid_forget()
-            next_button.grid_forget()
+            clear_path(upload_window, False)
+            next_back_frame.pack_forget()
             complete_Label = tk.Label(upload_window, bg = 'white', fg = 'black', font = ('Arial', 12), text = 'complete')
-            complete_Label.grid(row = 0, column = 0, columnspan = 2)
+            complete_Label.pack()
             content = 'test'
-            edit_button = tk.Button(upload_window, text = 'edit', width = 15, height = 2,  command = lambda: edit(content, upload_window, window))
-            edit_button.grid(row = 2, column = 1)
+            
+            edit_frame = tk.Frame(upload_window)  # 加入 Frame 框架
+            edit_frame.pack()
+            show_image_button('upload', upload_window, edit_frame, lambda: edit(file_name, upload_window, window), [4, 0, "right"], ["Edit", 100, 100])
+    
 
         else:
             current_index = all_file_names.index(current_element.get()) + 1   # 獲得當前字符的順序位置，並往後移到下一位
             current_txt.set(all_file_names[current_index])  # 將下一個字符設為當前字符
             show_path(upload_window, file_name, current_txt.get())
 
-def complete(content, upload_window):
-    edit_button = tk.Button(upload_window, text = 'edit', width = 15, height = 2, command=lambda:edit(content, upload_window))
-    edit_button.grid(row = 5, column = 0,columnspan = 2)
 
 # 清除螢幕
 def clear_window(window):
+    time = 0
     for widget in window.winfo_children():
-        widget.grid_forget()  # 或者使用 grid_forget() 或 place_forget()
+        if time <= 2:
+            time += 1
+        else:
+            widget.pack_forget()  # 或者使用 pack_forget() 或 place_forget()
 
 # 清除前一個字符的路徑
-def clear_path(window):
+def clear_path(window, tag):
+
     time = 0
-    non_resident = [current_txt_Label, upload_button, next_button, back_button]
+    non_resident = [current_txt_Label, upload_frame, next_back_frame]
 
     # 遍历窗口中的子部件
     for widget in window.winfo_children():
-        if widget in non_resident:
+        if time < 1:
+            time +=1
+        elif widget in non_resident and tag:
             continue  # 跳过常驻内容部件
         else:
-            widget.grid_forget()  # 隐藏非常驻内容部件
+            widget.pack_forget()  # 隐藏非常驻内容部件
 
 # 刪除路徑
 def delete(path, Label, Button, upload_window, file_name):
     if os.path.exists(path):
         os.remove(path)
-        Label.grid_forget()
-        Button.grid_forget()
+        Label.pack_forget()
+        Button.pack_forget()
         show_path(upload_window, file_name, current_txt.get())
         print("has deleted")
     else:
@@ -156,7 +166,7 @@ def delete(path, Label, Button, upload_window, file_name):
 
 # 用於換頁的字跡顯示
 def show_path(upload_window, file_name, txt):
-    clear_path(upload_window)
+    clear_path(upload_window, True)
 
     # 獲得該字符的所有字跡之路徑
     current_path = os.path.abspath(os.path.dirname(__file__))   # 此檔案位置
@@ -174,9 +184,9 @@ def show_path(upload_window, file_name, txt):
         img_tk = ImageTk.PhotoImage(img)
 
         label = tk.Label(upload_window, image = img_tk)
-        label.grid(row = 3 + len(labels), column = 0)
+        label.pack()
         del_button = tk.Button(upload_window, text = 'delete', command = lambda: delete(image_path, label, del_button, upload_window, file_name))
-        del_button.grid(row = 3 + len(labels), column = 1)
+        del_button.pack()
         
 
         # 将Label和图像对象的引用添加到列表中
@@ -187,5 +197,6 @@ def show_path(upload_window, file_name, txt):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    draggable = DraggableWindow(root)
+    pass_window = tk.Toplevel(root)
+    goto_upload('test3.txt', pass_window, root)
     root.mainloop()

@@ -13,7 +13,7 @@ window = tk.Tk()
 screen_width = window.winfo_screenwidth()   # 獲得螢幕的長
 screen_height = window.winfo_screenheight() # 獲得螢幕的高
 window.geometry("845x590+" + str((screen_width - 845)//2) + "+" + str((screen_height - 590)//2))    # 宣告視窗大小且視窗置中
-draggable = DraggableWindow(window) # 使視窗標準化
+draggable = DraggableWindow(window, [845, 590]) # 使視窗標準化
 
 
 
@@ -23,10 +23,10 @@ def print_selection():
     # 清空螢幕
     time = 0
     for widget in window.winfo_children():
-        if time < 2:
+        if time < 1:
             time += 1
         else:
-            widget.grid_forget()
+            widget.pack_forget()
             
     if file_name == None:
         txt_viewer('README.txt', window)
@@ -53,11 +53,11 @@ all_file_names = os.listdir()
 selected_option = tk.StringVar()
 selected_option.set('README.txt')
 dropdown = ttk.OptionMenu(window, selected_option, 'README.txt', *all_file_names, command = on_selection_changed)
-dropdown.grid(row = 1, column = 0)
+dropdown.pack()
 
 # 選取的確認鍵
 selection_button = tk.Button(window, text = 'select', width = 15, height = 2, command = print_selection)
-selection_button.grid(row = 2, column = 0)
+selection_button.pack()
 
 # 主迴圈
 window.mainloop()

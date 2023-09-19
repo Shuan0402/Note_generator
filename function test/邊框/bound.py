@@ -1,17 +1,34 @@
 import tkinter as tk
 
-def minimize_window():
-    root.wm_state('iconic')
+class DraggableWindow:
+    def __init__(self, root):
+        self.root = root
+        self.root.overrideredirect(True)  # 移除標題欄和窗口邊框
+        self.root.bind("<ButtonPress-1>", self.start_move)
+        self.root.bind("<ButtonRelease-1>", self.stop_move)
+        self.root.bind("<B1-Motion>", self.do_move)
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.geometry('300x200')
-    root.title("最小化視窗示例")
+    def start_move(self, event):
+        self.x = event.x
+        self.y = event.y
 
-    label = tk.Label(root, text="這是一個Label")
-    label.pack()
+    def stop_move(self, event):
+        self.x = None
+        self.y = None
 
-    button = tk.Button(root, text="最小化視窗", command=minimize_window)
-    button.pack()
+    def do_move(self, event):
+        deltax = event.x - self.x
+        deltay = event.y - self.y
+        x = self.root.winfo_x() + deltax
+        y = self.root.winfo_y() + deltay
+        self.root.geometry("+{}+{}".format(x, y))
 
-    root.mainloop()
+# root = tk.Tk()
+# root.geometry("300x200")
+
+# draggable = DraggableWindow(root)
+
+# exit_button = tk.Button(root, text="Exit", command=root.destroy)
+# exit_button.pack()
+
+# root.mainloop()

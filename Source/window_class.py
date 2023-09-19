@@ -3,9 +3,10 @@ from image_button import show_image_button
 
 class DraggableWindow:
     
-    def __init__(self, root):
+    def __init__(self, root, window_size):
         self.root = root
         self.root.overrideredirect(True)  # 移除标题栏和窗口边框
+        self.root.resizable(False, False) # 禁用視窗調整大小
 
         # 移动窗口时的动作
         self.root.bind("<ButtonPress-1>", self.start_move)
@@ -15,11 +16,14 @@ class DraggableWindow:
         # 设置列权重，让标签所在的列能够填充剩余空间
         self.root.columnconfigure(0, weight=1)
 
+        frame = tk.Frame(self.root)                  # 加入 Frame 框架
+        frame.pack(side = 'top', fill = tk.X)
+
         # 關閉視窗
-        show_image_button(root, root.destroy, [0, 1, "ne"], ["X", 25, 25])
+        show_image_button('window_class', self.root, frame, self.root.destroy, [window_size[0] - 50, 0, ""], ["X", 25, 25])
         
-        #最小化視窗
-        show_image_button(root, self.minimize_action, [0, 0, "ne"], ["_", 25, 25])
+        # 最小化視窗
+        show_image_button('window_class', self.root, frame, self.minimize_action, [window_size[0] - 101, 0, ""], ["_", 25, 25])
 
         self.hidden = False  # 记录窗口的隐藏状态
 
@@ -32,12 +36,13 @@ class DraggableWindow:
         self.y = None
 
     def do_move(self, event):
-        deltax = event.x - self.x
-        deltay = event.y - self.y
-        x = self.root.winfo_x() + deltax
-        y = self.root.winfo_y() + deltay
-        self.root.geometry("+{}+{}".format(x, y))
-
+        if self.x is not None and self.y is not None:
+            deltax = event.x - self.x
+            deltay = event.y - self.y
+            x = self.root.winfo_x() + deltax
+            y = self.root.winfo_y() + deltay
+            self.root.geometry("+{}+{}".format(x, y))
+            
     def minimize_action(self):
         global min_window
         min_window = tk.Toplevel()  # 创建新窗口
